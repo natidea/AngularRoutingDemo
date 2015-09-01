@@ -3,7 +3,7 @@
 <html lang="en" ng-app="RouteDemo" ng-controller="AppCtrl">
 <head>
     <meta charset="utf-8" />
-    <title>TypeScript HTML App</title>
+    <title>Angular Routing Demo</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
 
 </head>
@@ -11,9 +11,15 @@
     <h1>TypeScript HTML App</h1>
 
     <div id="content">
-        <p ng-repeat="url in demoUrls">
-            <a href="{{url}}">{{url}}</a>
-        </p>
+        <div>Timer: {{time}}</div>
+        <div class="urlBody">
+            <p ng-repeat="url in demoUrls">
+                <a href="{{url}}">{{url}}</a>
+            </p>
+        </div>
+        <div class="urlButtons">
+            <button ng-click="ChangeUrlAsync()">Change</button>
+        </div>
     </div>
 
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
