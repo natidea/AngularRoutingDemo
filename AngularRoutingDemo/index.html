@@ -11,9 +11,9 @@
     <h1>TypeScript HTML App</h1>
 
     <div id="content">
-        <p><a href="#/home">#/home</a></p>
-        <p><a href="#/range/34/5">#/range/34/5</a></p>
-        <p><a href="#/search/graph">#/search/34/5</a></p>
+        <p ng-repeat="url in demoUrls">
+            <a href="{{url}}">{{url}}</a>
+        </p>
     </div>
 
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
