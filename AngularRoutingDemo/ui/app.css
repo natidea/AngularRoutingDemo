@@ -1,0 +1,13 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span {
+    font-style: italic;
+}
+
+.urlBody {
+    height: 300px;
+    overflow-y: scroll;
+    max-width: 700px;
+}

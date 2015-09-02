@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" ng-app="RouteDemo" ng-controller="AppCtrl">
+<head>
+    <meta charset="utf-8" />
+    <title>Angular Routing Demo - UI-Router</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+
+</head>
+<body>
+    <h1>Routing using UI-Router</h1>
+
+    <div id="content">
+        <div>Timer: {{time}}</div>
+        <div class="urlBody">
+            <p ng-repeat="url in demoUrls">
+                <a href="{{url}}">{{url}}</a>
+            </p>
+        </div>
+        <div class="urlButtons">
+            <div>
+                <button ng-click="ChangeUrlAsync()">Preset Change</button>
+            </div>
+            <div>
+                <select ng-model="selectedUrl" ng-options="url for url in demoUrls"></select> 
+                <button ng-click="LoadUrl(selectedUrl)">Load Url</button>
+            </div>
+            <div>
+                <span>{{selectedUrl}}</span> 
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
