@@ -10,9 +10,11 @@ class AppUI {
 
     static ConfigRoutes(
         $stateProvider: ng.ui.IStateProvider,
-        $urlRouterProvider: ng.ui.IUrlRouterProvider) {
+        $urlRouterProvider: ng.ui.IUrlRouterProvider,
+        $urlMatcherFactoryProvider: ng.ui.IUrlMatcherFactory) {
 
         $urlRouterProvider.otherwise("/");
+        $urlMatcherFactoryProvider.caseInsensitive(true);
 
         var fileParams = "l&sl&el&sc&ec&reference";
 
@@ -32,61 +34,16 @@ class AppUI {
             .state("project.search.file", {
                 url: "/file/*path?" + fileParams
             })
+            .state("project.s", {
+                url: "/s/:term?resultId", 
+                redirectTo: "project.search"
+            })
             //.state("project.path", {
             //    url: "/*path?" + fileParams, reloadOnSearch: true
             //})
             //.state("project.search.path", {
             //    url: "/*path?" + fileParams
             //})
-    }
-
-    static ConfigRoutes2($routeProvider: ng.route.IRouteProvider) {        
-        $routeProvider
-            .when("/home", {
-                action: "home.default", caseInsensitiveMatch: true
-            })
-            .when("/range/:line/:column", {
-                action: "range.line"
-            })
-            .when("/search/:term", {
-                action: "search.term"
-            })
-            .when("/search/:term/select/:resultId", {
-                action: "search.term.result"
-            })
-            .when("/search/:term/:resultId", {
-                action: "search.term-result"
-            })
-            .when("/search/:term/:resultId/selection/:startLine/:startColumn?/:endLine?/:endColumn?", {
-                action: "search.term-result.selection"
-            })
-            .when("/search/:term/:resultId/selection/:startLine/:startColumn?/:endLine?/:endColumn?/file/:filePath*", {
-                action: "search.term-result.selection.file"
-            })
-            .when("/selection/:startLine/:startColumn?/:endLine?/:endColumn?/file/:filePath*", {
-                action: "selection.file"
-            })
-            .when("/file/:filePath*", {
-                action: "file"
-            })
-            //.when("/file/:filePath*\/selection/:startLine/:startColumn?/:endLine?/:endColumn?", {
-            //    action: "file.selection"
-            //})
-            .when("/search/:term/:resultId/selection/:startLine/:startColumn?/:endLine?/:endColumn?/references", {
-                action: "search.term-result.selection.references"
-            })
-            .when("/search/:term/:resultId/selection/:startLine/:startColumn?/:endLine?/:endColumn?/references/file/:filePath*", {
-                action: "search.term-result.selection.references.file"
-            })
-            .when("/selection/:startLine/:startColumn?/:endLine?/:endColumn?/references/file/:filePath*", {
-                action: "selection.references.file", hasSelection: true
-            })
-            .when("/", {
-                action: "noaction"
-            })
-            .otherwise({
-                redirectTo: '/'
-            })
     }
 }
 
@@ -179,6 +136,10 @@ class AppCtrlUI {
         this.$scope.$on("$stateChangeStart",
             (event, toState, toParams, fromState, fromParams) => {
                 console.log("Entering State: ", toState.name);
+                if (toState.redirectTo) {
+                    event.preventDefault();
+                    this.$state.go(toState.redirectTo, toParams);
+                }
             });
 
         this.$scope.$on("$stateChangeSuccess",
@@ -186,6 +147,8 @@ class AppCtrlUI {
                 console.log("toState", toState);
                 console.log("toParams", toParams);
                 //console.log("$stateParams", this.$stateParams);
+                if (this.$state.includes("**.search.**")) console.info("searching...");
+                if (this.$state.includes("**.file.**")) console.info("opening file...");
             });
     }
 
